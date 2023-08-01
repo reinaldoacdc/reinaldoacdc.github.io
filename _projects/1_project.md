@@ -1,10 +1,11 @@
 ---
 layout: page
-title: project 1
+title: MiniERP
 description: a project with a background image
 img: assets/img/12.jpg
 importance: 1
 category: work
+mermaid: true
 related_publications: einstein1956investigations, einstein1950meaning
 ---
 
@@ -60,6 +61,15 @@ You describe how you toiled, sweated, *bled* for your project, and then... you r
 <div class="caption">
     You can also have artistically styled 2/3 + 1/3 images, like these.
 </div>
+
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
 
 
 The code is simple.
