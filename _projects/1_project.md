@@ -63,13 +63,13 @@ You describe how you toiled, sweated, *bled* for your project, and then... you r
 </div>
 
 
-```mermaid
+{% mermaid %}
 graph TD;
     A-->B;
     A-->C;
     B-->D;
     C-->D;
-```
+{% endmermaid %}
 
 
 The code is simple.
