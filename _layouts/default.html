@@ -50,6 +50,9 @@
     {%- include footer.html %}
 
     <!-- JavaScripts -->
+    {% if page.mermaid %} 
+      {% include scripts/mermaid.html %} 
+    {% endif %}
     {% include scripts/jquery.html %}
     {% include scripts/bootstrap.html %}
     {% include scripts/masonry.html %}
