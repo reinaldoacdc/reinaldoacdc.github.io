@@ -1,69 +1,109 @@
 ---
 layout: page
-title: MiniERP
-description: a project with a background image
-img: assets/img/12.jpg
+title: Data Models
+description: Designs dos dados do App
+img: assets/img/data-modeling.jpeg
 importance: 1
-category: work
+category: demo
 mermaid: true
-related_publications: einstein1956investigations, einstein1950meaning
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
-
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
-
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
-
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, *bled* for your project, and then... you reveal its glory in the next row of images.
-
-
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
 <pre class="mermaid">
-  graph LR
-      A --- B
-      B-->C[fa:fa-ban forbidden]
-      B-->D(fa:fa-spinner);
+erDiagram
+
+     TENANT ||--o{ PRODUCT :has
+     TENANT ||--o{ SHOP :has     
+     TENANT ||--o{ SERVICE :has
+     TENANT ||--o{ USER :has
+     SHOP ||--o{ CAIXA :has
+     CAIXA ||--o{ COMANDA :has
+     COMANDA ||--o{ COMANDA_ITEM :has
+     COMANDA ||--o{ COMANDA_PAYMENT :has
+     SHOP ||--o{ INVOICE :has
+     INVOICE ||--o{ INVOICE_ITEM :has
+     SHOP ||--o{ BOOKING :has
+     
+     USER ||--o{ USER_SERVICES :has
+    TENANT {
+        integer id PK "Tenant Identifier"
+        string subdomain "Subdomain"
+        string logo "Path containing logo"
+    }
+    SUPERADMIN {
+        integer id PK
+        string email
+        string password
+    }
+    SHOP {
+        integer id PK
+        integer tenantId FK
+    }
+    PRODUCT {
+        integer id PK
+        integer tenantId FK
+        string name  "Product name"
+    }
+    SERVICE {
+        integer id PK
+        integer tenantId FK
+        double price 
+        integer duration "Service duration time"
+    }
+    USER {
+        integer id PK
+        integer tenantId FK
+    }
+    USER_SERVICES {
+        integer id PK
+        integer tenantId FK
+        integer userId  FK "User ID"
+        integer serviceId FK "Service ID"
+        double price "Service value"
+        integer duration "Service duration time"
+    }
+    INVOICE {
+        integer id PK
+        integer tenantId FK 
+        shopId id FK "Shop ID"
+    }
+    INVOICE_ITEM {
+        integer id PK
+        integer tenantId FK
+        integer invoiceId FK
+    }
+    BOOKING {
+        integer id PK
+        integer tenantId FK
+        integer shopId FK
+        integer userId FK
+        integer serviceId FK
+        date date
+        time startTime
+        time endTime
+    }
+    CAIXA {
+        integer id PK
+        integer tenantId FK
+        integer shopId FK
+        datetime open_at "Data de abertura"
+        datetime closed_at "Data do fechamento"
+    }
+    COMANDA {
+        integer id PK
+        integer tenantId FK
+        integer shopId FK
+        integer caixaId FK
+        double total "Valor total da comanda"
+    }
+    COMANDA_ITEM {
+        integer id PK
+        integer comandaId FK
+        double price "Valor do item"
+    }
+    COMANDA_PAYMENT {
+        integer id PK
+        integer comandaId FK
+        double value "Valor do pagamento"
+    }
 </pre>
